@@ -1,12 +1,94 @@
-# React + Vite
+# Feature flags
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🚩 Feature Flag System – React + Vite
 
-Currently, two official plugins are available:
+This project includes a lightweight feature flagging system designed for single-page applications built with **React + Vite**. It enables runtime control of feature visibility using `localStorage` and URL query parameters.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔧 How It Works
 
-## Expanding the ESLint configuration
+Feature flags are stored in the browser’s `localStorage` and accessed using a custom React hook:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```js
+const showContact = useFeatureFlag("showContact");
+
+return showContact ? <Contact /> : null;
+```
+
+The `useFeatureFlag` hook:
+
+- Reads the flag from `localStorage`
+- Applies override from URL query parameters (`?feature=...&toggle=...`)
+- Keeps the value reactive using `useLocalStorage`
+
+## 🌐 Enable or Disable Flags via URL
+
+You can toggle feature flags at runtime using URL query parameters:
+
+| Action            | Example URL                                             |
+| ----------------- | ------------------------------------------------------- |
+| ✅ Enable a flag  | `http://localhost:5173/?feature=showContact&toggle=on`  |
+| ❌ Disable a flag | `http://localhost:5173/?feature=showContact&toggle=off` |
+
+This sets the following key in `localStorage`:
+
+```
+showContact → "true" or "false"
+```
+
+Flags persist between sessions unless explicitly removed or cleared.
+
+## 💻 Developer Tools
+
+To inspect or manually modify feature flags:
+
+1. Open DevTools → Application → Local Storage
+2. Look for keys like `showContact`, `enableBetaUI`, etc.
+3. You can manually toggle with `localStorage.setItem('showContact', 'true')`
+
+To reset all flags:
+
+```js
+localStorage.clear();
+```
+
+## 📁 Relevant Code Structure
+
+```
+src/
+├── hooks/
+│   ├── useFeatureFlag.js         // React hook to access a flag
+│   └── useLocalStorage.js        // Syncs state with localStorage
+├── utils/
+│   ├── localStorageItem.js    // Safely read from localStorage using setLocalStorageItem and getLocalStorageItem
+
+```
+
+## ✅ Usage Example
+
+```js
+import useFeatureFlag from "./hooks/useFeatureFlag";
+
+export default function ContactPage() {
+  const showContact = useFeatureFlag("showContact");
+
+  return showContact ? <Contact /> : null;
+}
+```
+
+## 🧪 Tips
+
+- Feature flag URLs work with any route:
+
+  ```
+  http://localhost:5173/dashboard?feature=showContact&toggle=on
+
+  ```
+
+- Each feature flag is independent and scoped by name.
+- Flags are persisted per browser (not shared across users).
+
+## 📌 Next Steps (Optional Enhancements)
+
+- Add a toggle UI panel for dev/QA testing
+- Sync feature flags across tabs using the `storage` event
+- Load predefined flags from a config JSON or remote source

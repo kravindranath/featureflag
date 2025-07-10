@@ -12,17 +12,19 @@ export default function NavBar() {
     { path: "/about", label: "About" },
   ];
 
+  console.log(navItems);
+
   const showContact = useFeatureFlag("showContact");
 
   if (showContact) {
-    navItems = navItems.push({ path: "/contact", label: "Contact" });
+    navItems = [...navItems, { path: "/contact", label: "Contact" }];
   }
 
   const isActive = (path) => location.pathname === path;
 
   return (
     <nav className="navbar">
-      {navItems.map((item) => (
+      {navItems?.map((item) => (
         <Link
           key={item.path}
           to={item.path}
