@@ -1,6 +1,7 @@
 // Controlled by Team A or config system
-const flags = {
+export const flags = {
   showContact: false,
+  showFlags: false,
 };
 
 export const isFeatureEnabled = (flag) => flags[flag] ?? false;
