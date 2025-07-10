@@ -15,6 +15,12 @@ export default function NavBar() {
   console.log(navItems);
 
   const showContact = useFeatureFlag("showContact");
+  const showFlags = useFeatureFlag("showFlags");
+
+  if (showFlags) {
+    // Render something to verify
+    console.log("✅ showFlags is ON");
+  }
 
   if (showContact) {
     navItems = [...navItems, { path: "/contact", label: "Contact" }];
