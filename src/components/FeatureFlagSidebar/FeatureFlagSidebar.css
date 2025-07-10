@@ -1,0 +1,51 @@
+.flag-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100vh;
+  background-color: #f8f9fa;
+  border-left: 1px solid #ccc;
+  padding: 1rem;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  font-family: sans-serif;
+}
+
+.flag-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flag-sidebar-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.close-btn {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  color: #666;
+}
+
+.flag-list {
+  margin-top: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.flag-item {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.radio-group label {
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
+}
