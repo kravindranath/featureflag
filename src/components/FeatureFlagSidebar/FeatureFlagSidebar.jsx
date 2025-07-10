@@ -1,12 +1,9 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import useFeatureFlags from "../../hooks/useFeatureFlags";
 import { flags as allFlags } from "../../config/featureFlags";
 import "./FeatureFlagSidebar.css";
 
 export default function FeatureFlagSidebar() {
-  const navigate = useNavigate();
-  const location = useLocation();
   const { flags, setFlag } = useFeatureFlags();
 
   const showSidebar = flags.showFlags;

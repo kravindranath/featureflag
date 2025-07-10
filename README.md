@@ -26,6 +26,7 @@ You can toggle feature flags at runtime using URL query parameters:
 
 | Action            | Example URL                                             |
 | ----------------- | ------------------------------------------------------- |
+| ❌ Show all flags | `http://localhost:5173/?feature=showFlags&toggle=on`    |
 | ✅ Enable a flag  | `http://localhost:5173/?feature=showContact&toggle=on`  |
 | ❌ Disable a flag | `http://localhost:5173/?feature=showContact&toggle=off` |
 
@@ -42,24 +43,41 @@ Flags persist between sessions unless explicitly removed or cleared.
 To inspect or manually modify feature flags:
 
 1. Open DevTools → Application → Local Storage
-2. Look for keys like `showContact`, `enableBetaUI`, etc.
+2. Look for keys like `showContact`, `showFlags`, `showAudit`, etc.
 3. You can manually toggle with `localStorage.setItem('showContact', 'true')`
-
-To reset all flags:
-
-```js
-localStorage.clear();
-```
 
 ## 📁 Relevant Code Structure
 
 ```
-src/
+├── App.jsx
+├── main.jsx
+│
+├── config/
+│   └── featureFlags.js         # ✅ Default values for all feature flags
+│
 ├── hooks/
-│   ├── useFeatureFlag.js         // React hook to access a flag
-│   └── useLocalStorage.js        // Syncs state with localStorage
+│   ├── useFeatureFlag.js       # ✅ Hook for a single flag (reactive + URL param aware)
+│   ├── useFeatureFlags.js      # ✅ Hook for all flags (returns full state + setter)
+│   └── useLocalStorage.js      # ✅ Hook to sync state with localStorage
+│
 ├── utils/
-│   ├── localStorageItem.js    // Safely read from localStorage using setLocalStorageItem and getLocalStorageItem
+│   └── localStorage.js         # ✅ Safe get/set wrappers for localStorage
+│
+├── components/
+│   ├── NavBar.jsx              # Navigation bar with dynamic links based on flags
+│   └── FeatureFlagSidebar.jsx # ✅ Sidebar UI to view/toggle all flags with close button
+│
+├── pages/
+│   ├── Dashboard.jsx
+│   ├── About.jsx
+│   └── Contact.jsx
+│
+├── styles/
+│   ├── NavBar.css
+│   └── FeatureFlagSidebar.css
+│
+└── index.html
+
 
 ```
 
@@ -80,7 +98,7 @@ export default function ContactPage() {
 - Feature flag URLs work with any route:
 
   ```
-  http://localhost:5173/dashboard?feature=showContact&toggle=on
+  http://localhost:5173/dashboard?feature=showFlags&toggle=on
 
   ```
 
