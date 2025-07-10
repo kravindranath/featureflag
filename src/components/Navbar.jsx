@@ -2,14 +2,20 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./NavBar.css";
 
+import { isFeatureEnabled } from "../config/featureFlags";
+
 export default function NavBar() {
   const location = useLocation();
 
-  const navItems = [
+  let navItems = [
     { path: "/", label: "Dashboard" },
     { path: "/about", label: "About" },
-    { path: "/contact", label: "Contact" },
   ];
+
+  const showContact = isFeatureEnabled("showContact");
+  if (showContact) {
+    navItems = navItems.push({ path: "/contact", label: "Contact" });
+  }
 
   const isActive = (path) => location.pathname === path;
 

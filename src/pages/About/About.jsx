@@ -5,7 +5,7 @@ export default function About() {
   return (
     <div>
       <h1>🏠 About Page</h1>
-      <div class="default-card">About</div>
+      <div className="default-card">About</div>
     </div>
   );
 }
